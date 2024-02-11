@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcar Cartela</title>
+    <style>
+        .cartela {
+            margin-bottom: 20px;
+        }
+        
+        .number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+            margin-right: 5px;
+            text-align: center;
+            line-height: 30px;
+        }
+        
+        .marked {
+            background-color: red;
+        }
+        
+        #numerosSorteados {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="cartelas">
+        <div class="cartela" id="cartela1">
+            <h3>Cartela 1</h3>
+            <div class="numbers">
+                <div class="number">02</div>
+                <div class="number">05</div>
+                <div class="number">08</div>
+                <div class="number">10</div>
+                <div class="number">15</div>
+                <div class="number">19</div>
+                <div class="number">22</div>
+                <div class="number">23</div>
+                <div class="number">27</div>
+                <div class="number">30</div>
+                <div class="number">32</div>
+                <div class="number">34</div>
+                <div class="number">39</div>
+                <div class="number">41</div>
+                <div class="number">43</div>
+                <div class="number">47</div>
+                <div class="number">50</div>
+                <div class="number">53</div>
+                <div class="number">55</div>
+                <div class="number">57</div>
+            </div>
+        </div>
+        <div class="cartela" id="cartela2">
+            <h3>Cartela 2</h3>
+            <div class="numbers">
+                <div class="number">02</div>
+                <div class="number">05</div>
+                <div class="number">06</div>
+                <div class="number">09</div>
+                <div class="number">13</div>
+                <div class="number">15</div>
+                <div class="number">21</div>
+                <div class="number">26</div>
+                <div class="number">32</div>
+                <div class="number">33</div>
+                <div class="number">36</div>
+                <div class="number">39</div>
+                <div class="number">40</div>
+                <div class="number">42</div>
+                <div class="number">47</div>
+                <div class="number">53</div>
+                <div class="number">54</div>
+                <div class="number">56</div>
+                <div class="number">58</div>
+                <div class="number">59</div>
+            </div>
+        </div>
+        <div class="cartela" id="cartela3">
+            <h3>Cartela 3</h3>
+            <div class="numbers">
+                <div class="number">04</div>
+                <div class="number">06</div>
+                <div class="number">10</div>
+                <div class="number">13</div>
+                <div class="number">15</div>
+                <div class="number">17</div>
+                <div class="number">23</div>
+                <div class="number">26</div>
+                <div class="number">30</div>
+                <div class="number">34</div>
+                <div class="number">37</div>
+                <div class="number">39</div>
+                <div class="number">40</div>
+                <div class="number">48</div>
+                <div class="number">49</div>
+                <div class="number">51</div>
+                <div class="number">53</div>
+                <div class="number">56</div>
+                <div class="number">57</div>
+                <div class="number">59</div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <label for="numeroSorteado">Número Sorteado:</label>
+        <input type="number" id="numeroSorteado" onkeydown="if (event.keyCode === 13) conferirNumero()">
+        <button onclick="conferirNumero()">Conferir</button>
+        <button onclick="reiniciar()">Reiniciar</button>
+        <button onclick="adicionarCartela()">Adicionar Cartela</button>
+    </div>
+
+    <div id="numerosSorteados">
+        <h3>Números Sorteados:</h3>
+    </div>
+
+    <script>
+        let numerosSorteados = [];
+
+        const cartelas = [
+            [2, 5, 8, 10, 15, 19, 22, 23, 27, 30, 32, 34, 39, 41, 43, 47, 50, 53, 55, 57],
+            [2, 5, 6, 9, 13, 15, 21, 26, 32, 33, 36, 39, 40, 42, 47, 53, 54, 56, 58, 59],
+            [4, 6, 10, 13, 15, 17, 23, 26, 30, 34, 37, 39, 40, 48, 49, 51, 53, 56, 57, 59]
+        ];
+
+        function conferirNumero() {
+            const numeroSorteado = parseInt(document.getElementById("numeroSorteado").value);
+
+            // Adicionando o número sorteado à lista de números sorteados
+            numerosSorteados.push(numeroSorteado);
+            exibirNumerosSorteados();
+
+            for (let i = 0; i < cartelas.length; i++) {
+                const cartela = cartelas[i];
+                const cartelaDiv = document.getElementById("cartela" + (i + 1));
+
+                if (cartela.includes(numeroSorteado)) {
+                    const numeroDiv = cartelaDiv.querySelector(".numbers .number:nth-child(" + (cartela.indexOf(numeroSorteado) + 1) + ")");
+                    numeroDiv.classList.add("marked");
+
+                    const allMarked = cartela.every(numero => {
+                        return cartelaDiv.querySelector(".numbers .number:nth-child(" + (cartela.indexOf(numero) + 1) + ")").classList.contains("marked");
+                    });
+
+                    if (allMarked) {
+                        alert("Parabéns! Cartela " + (i + 1) + " é a vencedora!");
+                    }
+                }
+            }
+
+            // Limpar o campo de entrada
+            document.getElementById("numeroSorteado").value = "";
+        }
+
+        function reiniciar() {
+            const numerosMarcados = document.querySelectorAll(".marked");
+            numerosMarcados.forEach(numero => {
+                numero.classList.remove("marked");
+            });
+
+            // Limpar a lista de números sorteados
+            numerosSorteados = [];
+            exibirNumerosSorteados();
+        }
+
+        function adicionarCartela() {
+            const novoNumeroCartelas = cartelas.length + 1;
+            const novaCartela = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+            cartelas.push(novaCartela);
+
+            const novoCartelaDiv = document.createElement("div");
+            novoCartelaDiv.classList.add("cartela");
+            novoCartelaDiv.id = "cartela" + novoNumeroCartelas;
+
+            const novoCartelaTitulo = document.createElement("h3");
+            novoCartelaTitulo.textContent = "Cartela " + novoNumeroCartelas;
+            novoCartelaDiv.appendChild(novoCartelaTitulo);
+
+            const novoNumerosDiv = document.createElement("div");
+            novoNumerosDiv.classList.add("numbers");
+            novoCartelaDiv.appendChild(novoNumerosDiv);
+
+            novoNumerosDiv.innerHTML += novaCartela.map(numero => "<div class='number'>" + numero + "</div>").join("");
+
+            document.getElementById("cartelas").appendChild(novoCartelaDiv);
+        }
+
+        function exibirNumerosSorteados() {
+            const numerosSorteadosDiv = document.getElementById("numerosSorteados");
+            numerosSorteadosDiv.innerHTML = "<h3>Números Sorteados:</h3>";
+            numerosSorteados.forEach(numero => {
+                numerosSorteadosDiv.innerHTML += numero + " - ";
+
+            });
+        }
+    </script>
+
+</body>
+
+</html>
