@@ -1,5 +1,6 @@
 Descrição do sistema Marcador-Pernambuco-da-sorte:
-## Demonstração
+## Demonstração ou [ Click Aqui! para rodar a aplicação ](https://wsanbey.github.io/Marcador-Pernambuco-da-sorte/)  
+ 
 
 <img src="https://github.com/Wsanbey/Marcador-Pernambuco-da-sorte/assets/61056410/acff31ff-98c2-4e5b-a970-40ae7d47bf62" alt="Marcador do pernambuco da sorte" width="700">
 
